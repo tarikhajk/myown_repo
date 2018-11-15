@@ -48,7 +48,8 @@ public class MyLibrary {
 	}
 
 	public boolean checkOut(Book b1, Person p1) {
-		if (b1.getPerson() == null) {
+		if (b1.getPerson() == null 
+				&& (this.getBooksForPerson(p1).size() < p1.getMaxBooks())) {
 			b1.setPerson(p1);
 			return true;
 		} else {
@@ -66,8 +67,79 @@ public class MyLibrary {
 	}
 
 	public ArrayList<Book> getBooksForPerson(Person p1) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Book> result = new ArrayList<Book>();
+		for (Book aBook : this.getBooks()) {
+			if((aBook.getPerson() != null) && 
+					aBook.getPerson().getName().equals(p1.getName())) {
+				result.add(aBook);
+			}
+		}
+		return result;
+		
 	}
+
+	public ArrayList<Book> getAvailableBooks() {
+		ArrayList<Book> result = new ArrayList<Book>();
+		for (Book aBook: this.getBooks()) {
+			if (aBook.getPerson() == null) {
+				result.add(aBook);
+			}
+		}
+		return result;
+	}
+
+	public ArrayList<Book> getUnavailableBooks() {
+		// maybe i can use the array intersection-ish instead here?
+		ArrayList<Book> result = new ArrayList<Book>();
+		for (Book aBook: this.getBooks()) {
+			if (aBook.getPerson() != null) {
+				result.add(aBook);
+			}
+		}
+		return result;
+	}
+	
+	public String toString() {
+		return this.getName() + ": " + this.getBooks().size() + " book(s); "
+				+ this.getPeople().size() + " people";
+	}
+	
+	public static void main(String[] args) {
+		// create new library
+		MyLibrary testLibrary = new MyLibrary("Test Drive Library");
+		Book b1 = new Book("War and Peace");
+		Book b2 = new Book("Great Expectations");
+		b1.setAuthor("Tolstoy"); b2.setAuthor("Dickens");
+		Person jim = new Person(); jim.setName("Jim");
+		Person sue = new Person(); sue.setName("Sue");
+		
+		testLibrary.addBook(b1); testLibrary.addBook(b2);
+		testLibrary.addPerson(jim); testLibrary.addPerson(sue);
+		System.out.println("Just created new library");
+		testLibrary.printStatus();
+		
+		System.out.println("Check out War and Peace to Sue");
+		testLibrary.checkOut(b1, sue);
+		testLibrary.printStatus();
+		
+		System.out.println("Do some more stuff");
+		testLibrary.checkIn(b1);
+		testLibrary.checkOut(b2, jim);
+		testLibrary.printStatus();
+	}
+
+	private void printStatus() {
+		System.out.println("Status report of MyLibrary: \n" + this.toString());
+		for (Book thisBook : this.getBooks()) {
+			System.out.println(thisBook);
+		}
+		for (Person p : this.getPeople()) {
+			int bookCount = this.getBooksForPerson(p).size();
+			System.out.println(p + " has " + bookCount + " of my books");
+		}
+		System.out.println("Books available: " + this.getAvailableBooks().size());
+		System.out.println("*--- End of Status Report ---* \n");
+	}
+	
 
 }

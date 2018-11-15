@@ -29,7 +29,7 @@ public class Person {
 	}
 	
 	public String toString() {
-		return this.getName() + " (" + this.getMaxBooks() + " books)";
+		return this.getName() + " (" + this.getMaxBooks() + " books max)";
 	}
 	
 }
