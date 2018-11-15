@@ -92,6 +92,50 @@ public class MyLibraryTest extends TestCase {
 		ml.checkOut(b2, p1);
 		testBooks = ml.getBooksForPerson(p1);
 		assertEquals(2, testBooks.size());
-		assertEquals(1, testBooks.indexOf(b1));
+		assertEquals(1, testBooks.indexOf(b2));
+	}
+	
+	public void testAvailableBooks() {
+		setup();
+		addItems();
+		ArrayList<Book> testBooks = ml.getAvailableBooks();
+		assertEquals(2, testBooks.size());
+		assertEquals(1, testBooks.indexOf(b2));
+		
+		// remove first book
+		ml.checkOut(b1, p1);
+		testBooks = ml.getAvailableBooks();
+		assertEquals(1, testBooks.size());
+		assertEquals(0, testBooks.indexOf(b2));
+		
+		// remove second book
+		ml.checkOut(b2, p1);
+		testBooks = ml.getAvailableBooks();
+		assertEquals(0, testBooks.size());
+	}
+	
+	public void testGetUnavailable() {
+		setup();
+		addItems();
+		assertEquals(0, ml.getUnavailableBooks().size()); // should be no books to start
+		
+		// checkout first book
+		ml.checkOut(b1, p1);
+		ArrayList<Book> testBooks = ml.getUnavailableBooks();
+		assertEquals(1, testBooks.size());
+		assertEquals(0, testBooks.indexOf(b1));
+		
+		// check out second book
+		ml.checkOut(b2, p2);
+		testBooks = ml.getUnavailableBooks();
+		assertEquals(2, testBooks.size());
+		assertEquals(1, testBooks.indexOf(b2));
+	}
+	
+	public void testToString() {
+		setup();
+		addItems();
+		assertEquals("Test: 2 book(s); 2 people", ml.toString());
+		
 	}
 }

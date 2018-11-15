@@ -28,7 +28,7 @@ public class PersonTest extends TestCase {
 		p4.setMaxBooks(7);
 		//Test-Driven Development -> lets say we want the toString() method to
 		//print out "Tarik Haj-Khalil (7 books)"
-		String testString = "Tarik Haj-Khalil (7 books)";
+		String testString = "Tarik Haj-Khalil (7 books max)";
 		assertEquals(testString, p4.toString());
 	}
 

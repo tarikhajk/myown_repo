@@ -35,5 +35,15 @@ public class Book {
 	public Person getPerson() {
 		return this.person;
 	}
+	
+	public String toString() {
+		String availability;
+		if (this.getPerson() == null) {
+			availability = "Available";
+		} else {
+			availability = "Checked out to " + this.getPerson().getName();
+		}
+		return this.getTitle() + " by " + this.getAuthor() + "; " + availability;
+	}
 
 }
